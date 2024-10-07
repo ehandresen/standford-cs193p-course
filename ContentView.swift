@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    let emojis = ["👻", "🎃", "🕷️", "😈", "😈"]
+    
     var body: some View {
         HStack(content: {
-            CardView(isFaceUp: true)
-            CardView(isFaceUp: true)
-            CardView()
-            CardView()
+            // the ForEach is saying: give me the view u want for each of theese things
+            ForEach(emojis.indices, id: \.self) { index in
+                CardView(content: emojis[index], isFaceUp: true)
+            }
         })
         .padding()
         .foregroundColor(.orange)
@@ -21,8 +23,12 @@ struct ContentView: View {
 }
 
 struct CardView: View {
+    // let doesn't need a default value
+    let content: String
+    
     // all structs with a var need a value
     @State var isFaceUp = false
+    
     
     var body: some View {
         ZStack { // called trailing closure syntax
@@ -33,7 +39,7 @@ struct CardView: View {
             
             if isFaceUp {
                 base.strokeBorder(lineWidth: 2)
-                Text("👻").font(.largeTitle)
+                Text(content).font(.largeTitle)
             } else {
                 base.fill()
             }
