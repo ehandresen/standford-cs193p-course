@@ -11,8 +11,8 @@ struct ContentView: View {
     var body: some View {
         HStack(content: {
             CardView(isFaceUp: true)
-            CardView()
             CardView(isFaceUp: true)
+            CardView()
             CardView()
         })
         .padding()
@@ -21,22 +21,34 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    // all structs with a var's need a value
-    var isFaceUp: Bool = false
+    // all structs with a var need a value
+    @State var isFaceUp = false
     
     var body: some View {
-        ZStack {
+        ZStack { // called trailing closure syntax
+            
+            // let = constant
+            // RoundedRectangle is infered as the type
+            let base = RoundedRectangle(cornerRadius: 12)
+            
             if isFaceUp {
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(lineWidth: 2)
+                base.strokeBorder(lineWidth: 2)
                 Text("👻").font(.largeTitle)
             } else {
-                RoundedRectangle(cornerRadius: 12)
+                base.fill()
             }
             
         }
+        .onTapGesture {
+            //isFaceUp = !isFaceUp, is same as under
+            isFaceUp.toggle()
+        }
     }
 }
+
+
+
+
 
 #Preview {
     ContentView()
