@@ -8,17 +8,58 @@
 import SwiftUI
 
 struct ContentView: View {
-    let emojis = ["👻", "🎃", "🕷️", "😈", "😈"]
+    let emojis = ["👻", "🎃", "🕷️", "😈", "👽", "💀", "🧙‍♀️", "🧟‍♀️", "🕸️", "🧛‍♂️", "☠️"]
+    
+    // can't change cardCount without adding '@State'
+    @State var cardCount: Int = 4
     
     var body: some View {
-        HStack(content: {
+        VStack {
+            cards
+            cardCountAdjusters
+        }
+        .padding()
+    }
+    
+    var cards: some View {
+        HStack {
             // the ForEach is saying: give me the view u want for each of theese things
-            ForEach(emojis.indices, id: \.self) { index in
+            ForEach(0..<cardCount, id: \.self) { index in
                 CardView(content: emojis[index], isFaceUp: true)
             }
-        })
-        .padding()
+        }
         .foregroundColor(.orange)
+    }
+    
+    var cardCountAdjusters: some View {
+        HStack {
+            cardRemover
+            Spacer()
+            cardAdder
+        }
+        .imageScale(.large)
+        .font(.largeTitle)
+    }
+    
+    var cardRemover: some View {
+        // this is how u would make a button that is a symbol instead of text
+        Button(action: {
+            if cardCount > 1 {
+                cardCount -= 1
+            }
+        }, label: {
+            Image(systemName: "rectangle.stack.badge.minus")
+        })
+    }
+    
+    var cardAdder: some View {
+        Button(action: {
+            if cardCount < emojis.count {
+                cardCount += 1
+            }
+        }, label: {
+            Image(systemName: "rectangle.stack.badge.plus")
+        })
     }
 }
 
